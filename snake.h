@@ -52,7 +52,6 @@ struct Point
 struct PointInfo
 {
 	PointInfo() {}
-	Point p;
 	int F;
 	int G;
 	PointState state;

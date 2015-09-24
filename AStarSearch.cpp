@@ -183,6 +183,8 @@ bool AStarSearch(const Point & start, const Point & end)
 	SearchScr(start).state = open;				//load the start node into index array
 	SearchScr(start).F = 0;
 	/*replaced by the map*/
+
+	
 	Point currentPoint;
 	Point neighbor;
 	int distance;
