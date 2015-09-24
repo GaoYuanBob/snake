@@ -9,6 +9,7 @@
 #include <queue>
 #include <cmath>
 #include <list>
+#include <map>
 #include "snake.h"
 Point placement[NEIGHBORS] = {
 	//Point(-1,-1),
@@ -62,7 +63,6 @@ void InitSearchScreen()
 			SearchScreen[y][x].state = out;
 			SearchScreen[y][x].F = INF;
 			SearchScreen[y][x].G = 0;
-			SearchScreen[y][x].H = 0;
 		}
 	}
 }
@@ -165,7 +165,6 @@ Point FindMinF()
 	}
 	return minp;
 }
-
 //************************************
 // Method:    AStarSearch
 // FullName:  AStarSearch
@@ -174,20 +173,25 @@ Point FindMinF()
 // Qualifier:
 // Parameter: const Point & start
 // Parameter: const Point & end
+// 2015.09.24 change the search operation from open list with map
 //************************************
 bool AStarSearch(const Point & start, const Point & end)
 {
+	/*repalced by the map,initailized by the map*/
 	InitSearchScreen();
 	SearchScr(start).lastPoint = Point(-1, -1);
-	SearchScr(start).state = open;
+	SearchScr(start).state = open;				//load the start node into index array
 	SearchScr(start).F = 0;
+	/*replaced by the map*/
 	Point currentPoint;
 	Point neighbor;
 	int distance;
 	bool found = false;
+	
 	currentPoint = FindMinF();
 	while (currentPoint.x != -1)
 	{
+		//search the point with the min f 
 		SearchScr(currentPoint).state = close;
 		if (currentPoint == end)
 		{
@@ -206,16 +210,16 @@ bool AStarSearch(const Point & start, const Point & end)
 					distance = 14;
 				else
 					distance = 10;
-				if (SearchScr(neighbor).state == out)
+				if (SearchScr(neighbor).state == out)	//search the neighbor in the map,if not exists	
 				{
 					SearchScr(neighbor).G = SearchScr(currentPoint).G + distance;
 					SearchScr(neighbor).F = SearchScr(neighbor).G + Heuristics(neighbor, end);
 					SearchScr(neighbor).lastPoint = currentPoint;
 					SearchScr(neighbor).state = open;
 				}
-				else
+				else              //if exists
 				{
-					if (SearchScr(neighbor).G > SearchScr(currentPoint).G + distance)
+					if (SearchScr(neighbor).G > SearchScr(currentPoint).G + distance)	//if updatble
 					{
 						SearchScr(neighbor).G = SearchScr(currentPoint).G + distance;
 						SearchScr(neighbor).F = SearchScr(neighbor).G + Heuristics(neighbor, end);

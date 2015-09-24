@@ -30,6 +30,17 @@ void SetScreenPosition(int x,int y)			//设置左上角位置屏幕位置
 	scrPos.X = x;
 	scrPos.Y = y;
 }
+//************************************
+// Method:    DrawPoint
+// FullName:  DrawPoint
+// Access:    public 
+// Returns:   void
+// Qualifier:
+// Parameter: HANDLE hInstance
+// Parameter: int x
+// Parameter: int y
+// Parameter: ScreenType st
+//************************************
 void DrawPoint(HANDLE hInstance, int x, int y, ScreenType st)
 {
 	curPos.X = x;
@@ -63,6 +74,14 @@ void DrawWall(HANDLE hInstance)
 {
 }
 
+//************************************
+// Method:    DrawScreen
+// FullName:  DrawScreen
+// Access:    public 
+// Returns:   void
+// Qualifier:
+// Parameter: HANDLE hInstance
+//************************************
 void DrawScreen(HANDLE hInstance)
 {
 	SetConsoleCursorPosition(hInstance, scrPos);
@@ -86,6 +105,15 @@ void DrawScreen(HANDLE hInstance)
 	}
 }
 
+//************************************
+// Method:    MakeFood
+// FullName:  MakeFood
+// Access:    public 
+// Returns:   Point
+// Qualifier: //随机产生食物
+// Parameter: HANDLE hInstance
+// Parameter: const SNAKE & snake
+//************************************
 Point MakeFood(HANDLE hInstance,const SNAKE & snake)		//随机产生食物
 {
 	/**/
@@ -110,6 +138,14 @@ Point MakeFood(HANDLE hInstance,const SNAKE & snake)		//随机产生食物
 	return Point(crood_x, crood_y);
 }
 
+//************************************
+// Method:    UpdateScores
+// FullName:  UpdateScores
+// Access:    public 
+// Returns:   void
+// Qualifier:
+// Parameter: HANDLE hInstance
+//************************************
 void UpdateScores(HANDLE hInstance)
 {
 	curPos.X = 5;				//相对于游戏屏幕的位置
@@ -132,6 +168,17 @@ void UpdateFoodBuffer()
 
 }
 
+//************************************
+// Method:    init
+// FullName:  init
+// Access:    public 
+// Returns:   void
+// Qualifier:
+// Parameter: HANDLE hInstance
+// Parameter: SNAKE & snake
+// Parameter: Direction direction
+// Parameter: size_t size_snake
+//************************************
 void init(HANDLE hInstance,SNAKE & snake, Direction direction, size_t size_snake)
 {
 	/*初始化墙壁*/
@@ -170,6 +217,16 @@ void init(HANDLE hInstance,SNAKE & snake, Direction direction, size_t size_snake
 	UpdateScores(hInstance);
 }
 
+//************************************
+// Method:    NextPoint
+// FullName:  NextPoint
+// Access:    public 
+// Returns:   Direction
+// Qualifier:
+// Parameter: Point * LastPoint
+// Parameter: Direction LastDirection
+// Parameter: Direction NextDirection
+//************************************
 Direction NextPoint(Point * LastPoint, Direction LastDirection, Direction NextDirection)
 {
 	switch (NextDirection)
@@ -224,10 +281,15 @@ Direction NextPoint(Point * LastPoint, Direction LastDirection, Direction NextDi
 	}
 	return LastDirection;
 }
-/*
-*
-*根据蛇身的位置坐标，更新屏幕矩阵,没用过
-***/
+
+//************************************
+// Method:    UpdateScreen
+// FullName:  UpdateScreen
+// Access:    public 
+// Returns:   void
+// Qualifier:
+// Parameter: const SNAKE & snake
+//************************************
 inline void UpdateScreen(const SNAKE & snake)
 {
 	for (SNAKE::const_iterator itr = snake.begin(); itr != snake.end(); ++itr)
@@ -243,6 +305,14 @@ inline bool Collision(Point * snakeHead)
 	return false;
 }
 
+//************************************
+// Method:    GetDirection
+// FullName:  GetDirection
+// Access:    public 
+// Returns:   char
+// Qualifier:
+// Parameter: Direction lastDireciton
+//************************************
 inline char GetDirection(Direction lastDireciton)
 {
 	if (GetAsyncKeyState(VK_UP))
@@ -265,6 +335,14 @@ void SetBarrier(const Point & LeftUp, const Point & RightDown)
 		}
 	}
 }
+//************************************
+// Method:    ShowStartMenu
+// FullName:  ShowStartMenu
+// Access:    public 
+// Returns:   Option
+// Qualifier:
+// Parameter: HANDLE hInstance
+//************************************
 Option ShowStartMenu(HANDLE hInstance)
 {
 	COORD optionPosition;
@@ -316,6 +394,14 @@ Option ShowStartMenu(HANDLE hInstance)
 	}
 	return opt;
 }
+//************************************
+// Method:    ShowGameOverMenu
+// FullName:  ShowGameOverMenu
+// Access:    public 
+// Returns:   Option
+// Qualifier:
+// Parameter: HANDLE hInstance
+//************************************
 Option ShowGameOverMenu(HANDLE hInstance)
 {
 	Option opt;
@@ -346,6 +432,17 @@ Option ShowGameOverMenu(HANDLE hInstance)
 	}
 	return opt;
 }
+//************************************
+// Method:    GetAiDirection
+// FullName:  GetAiDirection
+// Access:    public 
+// Returns:   Direction
+// Qualifier:
+// Parameter: list<Point> & iflx_lst
+// Parameter: list<Direction> & drct_lst
+// Parameter: Direction lastDirection
+// Parameter: const Point & snakeHead
+//************************************
 inline Direction GetAiDirection(list<Point> & iflx_lst,
 	list<Direction> & drct_lst,
 	Direction lastDirection,
@@ -367,17 +464,20 @@ inline Direction GetAiDirection(list<Point> & iflx_lst,
 	drct_lst.erase(itr_drct);
 	return direction;
 }
-/*
-*PARAMETERS:
-*hInstance:控制台句柄
-*snake:存储蛇身坐标的队列
-*initialDirection:蛇的初始移动方向
-*bodySize:蛇身初始大小
-*speed:游戏速度
-*RETURN:
-*GAME_OVER:游戏结束
-*CTL_ESC:返回主菜单
-*/
+
+//************************************
+// Method:    Game
+// FullName:  Game
+// Access:    public 
+// Returns:   ExitType
+// Qualifier:
+// Parameter: HANDLE hInstance
+// Parameter: SNAKE & snake
+// Parameter: Direction initialDirection
+// Parameter: int bodySize
+// Parameter: DWORD speed
+// Parameter: bool ai
+//************************************
 ExitType Game(HANDLE hInstance,SNAKE & snake,Direction initialDirection,int bodySize,DWORD speed,bool ai)
 {
 	Direction lastDirection = initialDirection;		//初始方向

@@ -55,7 +55,6 @@ struct PointInfo
 	Point p;
 	int F;
 	int G;
-	int H;
 	PointState state;
 	Point lastPoint;
 	inline friend bool operator<(const PointInfo & p1, const PointInfo & p2)
